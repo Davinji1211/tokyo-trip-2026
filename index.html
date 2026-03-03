@@ -149,6 +149,10 @@
             font-weight: 600;
             flex-shrink: 0;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .day-desc-wrap {
@@ -358,15 +362,14 @@
             display: block;
         }
 
-        /* 日付アイコン（小型裝飾圖示） */
+        /* 日付アイコン（標題裝飾小圖示） */
         .day-icon {
             display: block;
-            width: 52px;
-            height: 52px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
-            margin: 0 0 1rem 0;
             mix-blend-mode: multiply;
-            opacity: 0.72;
+            opacity: 0.7;
         }
 
         /* stamp 變體 */
@@ -424,7 +427,7 @@
             <!-- Day 1 -->
             <div class="accordion-item">
                 <div class="acc-header" onclick="toggleAcc(this)">
-                    <div class="day-mark">初日</div>
+                    <div class="day-mark">初日<img src="images/icon_day1_arrival_asset.png" class="day-icon" alt=""></div>
                     <div class="day-desc-wrap">
                         <div class="day-info">抵達・洗塵</div>
                         <div class="day-date">6/17（水）</div>
@@ -433,7 +436,6 @@
                 </div>
                 <div class="acc-content">
                     <div class="content-box">
-                        <img src="images/icon_day1_arrival_asset.png" class="day-icon" alt="Day 1 Icon">
                         <div class="event">
                             <div class="e-time">夕方 17:15</div>
                             <div class="e-title">成田降落</div>
@@ -487,7 +489,7 @@
             <!-- Day 2 -->
             <div class="accordion-item">
                 <div class="acc-header" onclick="toggleAcc(this)">
-                    <div class="day-mark">二日</div>
+                    <div class="day-mark">二日<img src="images/icon_day2_date_asset.png" class="day-icon" alt=""></div>
                     <div class="day-desc-wrap">
                         <div class="day-info">我們的・專屬約會</div>
                         <div class="day-date">6/18（木）</div>
@@ -496,7 +498,6 @@
                 </div>
                 <div class="acc-content">
                     <div class="content-box">
-                        <img src="images/icon_day2_date_asset.png" class="day-icon" alt="Day 2 Icon">
                         <div class="e-desc" style="margin-bottom: 1.5rem;">朋友尚未抵達，今日是完全屬於我們一家三口的專屬時光。備有兩份提案供妳擇一：</div>
 
                         <div class="option-box">
@@ -557,7 +558,7 @@
             <!-- Day 3 -->
             <div class="accordion-item">
                 <div class="acc-header" onclick="toggleAcc(this)">
-                    <div class="day-mark">三日</div>
+                    <div class="day-mark">三日<img src="images/icon_day3_bbq_asset.png" class="day-icon" alt=""></div>
                     <div class="day-desc-wrap">
                         <div class="day-info">合流・熱鬧開篇</div>
                         <div class="day-date">6/19（金）</div>
@@ -566,7 +567,6 @@
                 </div>
                 <div class="acc-content">
                     <div class="content-box">
-                        <img src="images/icon_day3_bbq_asset.png" class="day-icon" alt="Day 3 Icon">
                         <div class="e-desc" style="margin-bottom: 1.5rem;">Julio 家 15:00 才 Check-in，午前是我們的自由時光。選一個最期待的方式度過：</div>
 
                         <div class="option-box">
@@ -623,7 +623,7 @@
             <!-- Day 4 -->
             <div class="accordion-item">
                 <div class="acc-header" onclick="toggleAcc(this)">
-                    <div class="day-mark">四日</div>
+                    <div class="day-mark">四日<img src="images/icon_day4_retro_asset.png" class="day-icon" alt=""></div>
                     <div class="day-desc-wrap">
                         <div class="day-info">遊園・昭和餘暉</div>
                         <div class="day-date">6/20（土）</div>
@@ -632,7 +632,6 @@
                 </div>
                 <div class="acc-content">
                     <div class="content-box">
-                        <img src="images/icon_day4_retro_asset.png" class="day-icon" alt="Day 4 Icon">
                         <div class="event">
                             <div class="e-time">午前 10:00</div>
                             <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=西武園ゆうえんち"
@@ -691,7 +690,7 @@
             <!-- Day 5 -->
             <div class="accordion-item">
                 <div class="acc-header" onclick="toggleAcc(this)">
-                    <div class="day-mark">五日</div>
+                    <div class="day-mark">五日<img src="images/icon_day5_art_asset.png" class="day-icon" alt=""></div>
                     <div class="day-desc-wrap">
                         <div class="day-info">光影・童趣之日</div>
                         <div class="day-date">6/21（日）</div>
@@ -700,7 +699,6 @@
                 </div>
                 <div class="acc-content">
                     <div class="content-box">
-                        <img src="images/icon_day5_art_asset.png" class="day-icon" alt="Day 5 Icon">
                         <div class="e-desc" style="margin-bottom: 1.5rem;">依 6/18 的選擇決定今日方向，或視大家當天狀態靈活調整—三個選項皆精彩：</div>
 
                         <div class="option-box">
