@@ -344,8 +344,7 @@
         /* 插圖圖片樣式 */
         .hero-image {
             width: 100%;
-            max-height: 260px;
-            object-fit: cover;
+            height: auto;
             border-radius: 4px;
             margin: 1.5rem 0 1rem;
             display: block;
@@ -359,14 +358,15 @@
             display: block;
         }
 
-        /* 日付アイコン（極簡風格插圖） */
+        /* 日付アイコン（小型裝飾圖示） */
         .day-icon {
             display: block;
-            max-width: 140px;
-            height: auto;
-            margin: 0.4rem auto 1.4rem;
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            margin: 0 0 1rem 0;
             mix-blend-mode: multiply;
-            opacity: 0.88;
+            opacity: 0.72;
         }
 
         /* stamp 變體 */
