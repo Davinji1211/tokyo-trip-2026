@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>森馬火の東京之旅 | 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F5F3ED;
+            --ink: #3D3B38;
+            --matcha: #6B7B5D;
+            --rust: #9B5D4E;
+            --border: #D8D2C4;
+            --highlight: #EAE6D9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--paper);
+            color: var(--ink);
+            line-height: 1.8;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            padding-bottom: 5rem;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--rust);
+            margin: 2rem auto 0;
+        }
+
+        .title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1rem;
+            color: var(--matcha);
+            letter-spacing: 0.05em;
+        }
+
+        .intro-text {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #5a5854;
+            font-weight: 300;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 專屬地圖按鈕 */
+        .map-btn-wrapper {
+            margin-top: 1.5rem;
+        }
+
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--highlight);
+            color: var(--ink);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+
+        .map-btn:hover {
+            border-color: var(--rust);
+            color: var(--rust);
+            background-color: #fff;
+        }
+
+        .map-btn svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+
+        .accordion {
+            margin-top: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .acc-header {
+            padding: 1.8rem 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .acc-header:hover {
+            background-color: rgba(234, 230, 217, 0.3);
+        }
+
+        .acc-header:hover .day-info {
+            color: var(--rust);
+        }
+
+        .day-mark {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            color: var(--matcha);
+            width: 85px;
+            font-weight: 600;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .day-desc-wrap {
+            flex-grow: 1;
+            padding-right: 1rem;
+        }
+
+        .day-info {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-bottom: 0.2rem;
+        }
+
+        .day-date {
+            font-size: 0.75rem;
+            color: #8C8A85;
+            letter-spacing: 0.05em;
+        }
+
+        .cross {
+            width: 14px;
+            height: 14px;
+            position: relative;
+            flex-shrink: 0;
+            margin-right: 0.5rem;
+        }
+
+        .cross::before,
+        .cross::after {
+            content: '';
+            position: absolute;
+            background: var(--ink);
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .cross::after {
+            transform: rotate(90deg);
+        }
+
+        .active .cross::after {
+            transform: rotate(0);
+            opacity: 0;
+        }
+
+        .acc-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .content-box {
+            padding: 1.5rem 0 3.5rem 85px;
+            position: relative;
+        }
+
+        .event {
+            margin-bottom: 2.8rem;
+            position: relative;
+        }
+
+        .event:last-child {
+            margin-bottom: 0;
+        }
+
+        .e-time {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.85rem;
+            color: var(--matcha);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .e-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .e-desc {
+            font-size: 0.95rem;
+            color: #5a5854;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .option-box {
+            background: var(--highlight);
+            padding: 1.2rem;
+            border-left: 2px solid var(--rust);
+            margin: 1rem 0 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .option-box strong {
+            color: var(--rust);
+            font-weight: 500;
+        }
+
+        .stamp-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 1px solid var(--rust);
+            color: var(--rust);
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            font-family: 'Noto Serif TC', serif;
+            letter-spacing: 0.05em;
+            border-radius: 2px;
+        }
+
+        .stamp.green {
+            border-color: var(--matcha);
+            color: var(--matcha);
+        }
+
+        /* 參考資料素材連結區塊 */
+        .materials {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed rgba(216, 210, 196, 0.6);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .mat-link {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #7A7873;
+            text-decoration: none;
+            padding: 0.2rem 0.6rem;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .mat-link:hover {
+            background: #fff;
+            color: var(--ink);
+            border-color: #B5AFA0;
+            transform: translateY(-1px);
+        }
+
+        .mat-link svg {
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            fill: currentColor;
+            opacity: 0.7;
+        }
+
+        .message-end {
+            text-align: center;
+            margin-top: 5rem;
+            font-family: 'Noto Serif TC', serif;
+            color: #8C8A85;
+            font-size: 1rem;
+            font-style: italic;
+            letter-spacing: 0.1em;
+        }
+
+        a.location-link {
+            color: var(--rust);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(155, 93, 78, 0.4);
+            transition: all 0.3s ease;
+            padding-bottom: 0px;
+            font-weight: 400;
+        }
+
+        a.location-link:hover {
+            color: var(--matcha);
+            border-bottom-color: var(--matcha);
+        }
+
+        /* 插圖圖片樣式 */
+        .hero-image {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin: 1.5rem 0 1rem;
+            display: block;
+        }
+
+        .day-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 0.8rem 0;
+            display: block;
+        }
+
+        /* 日付アイコン（極簡風格插圖） */
+        .day-icon {
+            display: block;
+            max-width: 140px;
+            height: auto;
+            margin: 0.4rem auto 1.4rem;
+            mix-blend-mode: multiply;
+            opacity: 0.88;
+        }
+
+        /* stamp 變體 */
+        .stamp.rust {
+            border-color: var(--rust);
+            color: var(--rust);
+            background-color: rgba(155, 93, 78, 0.08);
+        }
+
+        @media (max-width: 600px) {
+            .day-mark {
+                width: 65px;
+                font-size: 1.1rem;
+            }
+
+            .content-box {
+                padding-left: 65px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Icon SVG Symbols -->
+    <svg style="display: none;">
+        <symbol id="icon-link" viewBox="0 0 24 24">
+            <path
+                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+        </symbol>
+        <symbol id="icon-map" viewBox="0 0 24 24">
+            <path
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+        </symbol>
+    </svg>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title">森馬火の東京之旅</h1>
+            <img src="images/hero_illustration_asset.png" class="hero-image" alt="Tokyo Trip Illustration">
+            <p class="subtitle">二零二六年・六月</p>
+            <p class="intro-text">不為趕路而疲憊，只為每一個相處的深刻瞬間。<br>為妳與寶貝量身訂製的八日夏日紀行。</p>
+
+            <div class="map-btn-wrapper">
+                <a href="https://www.google.com/maps/d/u/0/edit?hl=zh-TW&mid=1fIU6QrfKrWPAOQOi3iM8ggF3Nr-T5vw&ll=35.658601486858416%2C139.62550754999998&z=11"
+                    target="_blank" class="map-btn">
+                    <svg>
+                        <use href="#icon-map"></use>
+                    </svg>
+                    開啟我們的專屬地圖 (Google My Maps)
+                </a>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <!-- Day 1 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">初日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">抵達・洗塵</div>
+                        <div class="day-date">6/17（水）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <img src="images/icon_day1_arrival_asset.png" class="day-icon" alt="Day 1 Icon">
+                        <div class="event">
+                            <div class="e-time">夕方 17:15</div>
+                            <div class="e-title">成田降落</div>
+                            <img src="images/day1_arrival.png" class="day-image" alt="Tokyo Arrival">
+                            <div class="e-desc">搭乘國泰航空(CX450)抵達，轉乘 <a
+                                    href="https://www.google.com/maps/search/?api=1&query=Skyliner" target="_blank"
+                                    class="location-link">京成電鐵 Skyliner</a> 高速直達市區（約41分鐘）。</div>
+                            <div class="materials">
+                                <a href="https://www.keisei.co.jp/keisei/tetudou/skyliner/tc/" target="_blank"
+                                    class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>Skyliner 中文官網</a>
+                                <a href="https://www.youtube.com/results?search_query=Skyliner+搭乘心得&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>Skyliner 熱門搭乘 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜 19:30</div>
+                            <div class="e-title">入宿淺草下町</div>
+                            <img src="images/asakusa_lantern.png" class="day-image" alt="Asakusa Senso-ji Lantern">
+                            <div class="e-desc">入住 <a
+                                    href="https://www.google.com/maps/search/?api=1&query=Hotel+Gracery+Asakusa"
+                                    target="_blank" class="location-link">Hotel Gracery Asakusa</a>，放下行囊深呼吸。</div>
+                            <div class="materials">
+                                <a href="https://gracery.com/asakusa/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>飯店官網</a>
+                                <a href="https://www.youtube.com/results?search_query=Hotel+Gracery+Asakusa+開箱&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>人氣開箱影片</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Gracery+Asakusa" target="_blank" class="mat-link"><svg><use href="#icon-star"></use></svg>真實旅客評價(4.3+)</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜</div>
+                            <div class="e-title">暮食輕簡</div>
+                            <div class="e-desc">首日不排滿行程，保留體力調時差。於飯店周邊購買便利商店輕食，或至 <a
+                                    href="https://www.google.com/maps/search/?api=1&query=Freshness+Burger+浅草"
+                                    target="_blank" class="location-link">Freshness Burger</a> 簡單用餐，在房內安心休憩。</div>
+                            <div class="stamp-group">
+                                <span class="stamp">休憩優先</span>
+                            </div>
+                            <div class="materials">
+                                <a href="https://www.freshnessburger.co.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>Freshness Burger 菜單</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Freshness+Burger+浅草" target="_blank" class="mat-link"><svg><use href="#icon-star"></use></svg>Google 評價與照片</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">二日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">我們的・專屬約會</div>
+                        <div class="day-date">6/18（木）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <img src="images/icon_day2_date_asset.png" class="day-icon" alt="Day 2 Icon">
+                        <div class="e-desc" style="margin-bottom: 1.5rem;">朋友尚未抵達，今日是完全屬於我們一家三口的專屬時光。備有兩份提案供妳擇一：</div>
+
+                        <div class="option-box">
+                            <strong>提案 A・鎌倉尋花</strong><br>
+                            <img src="images/kamakura_hydrangea.png" class="day-image" alt="Kamakura Hydrangea"><br>
+                            乘著早晨出發（08:30），前往古都明月院，漫步於兩千五百株盛開的紫陽花海間。午膳品嚐海岸特產的吻仔魚丼，午後視體力造訪鎌倉大佛。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://trip-kamakura.com/place/230.html" target="_blank"
+                                    class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>明月院 觀光導覽</a>
+                                <a href="https://www.youtube.com/results?search_query=明月院+紫陽花+vlog&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>紫陽花季絕美 Vlog</a>
+                                <a href="https://www.kotoku-in.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>鎌倉大佛 高德院</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=高徳院+鎌倉大仏" target="_blank" class="mat-link"><svg><use href="#icon-star"></use></svg>大佛 Google 評價</a>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <strong>提案 B・吉卜力之森</strong><br>
+                            探訪宮崎駿的童話世界（需於 5/10 透過 Lawson 搶票），午後至井之頭恩賜公園散步吹風，享受悠閒的綠意午后。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://www.ghibli-museum.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>吉卜力美術館 官網</a>
+                                <a href="https://l-tike.com/ghibli/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>LAWSON 預約頁面</a>
+                                <a href="https://www.youtube.com/results?search_query=吉卜力美術館+vlog&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>熱門遊記影片</a>
+                            </div>
+                        </div>
+
+                        <div class="event" style="margin-top: 2.5rem;">
+                            <div class="e-time">夜 18:00</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=井泉本店+上野広小路"
+                                    target="_blank" class="location-link">名代豬排 本家井泉</a></div>
+                            <div class="e-desc">特意挑選上野的昭和老舖，品嚐傳聞中「用筷子便能夾斷」的夢幻軟嫩豬排，感受極致的日式炸物工藝。</div>
+                            <div class="stamp-group">
+                                <span class="stamp">老舖名店</span>
+                                <span class="stamp green">只收現金</span>
+                            </div>
+                            <div class="materials">
+                                <a href="http://www.isen-honten.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>井泉本店 官網</a>
+                                <a href="https://tabelog.com/tokyo/A1311/A131101/13003616/" target="_blank"
+                                    class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>Tabelog 評價 (3.5+)</a>
+                                <a href="https://www.youtube.com/results?search_query=井泉本店+豬排&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>食客品嚐心得 (高觀看)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">三日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">合流・熱鬧開篇</div>
+                        <div class="day-date">6/19（金）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <img src="images/icon_day3_bbq_asset.png" class="day-icon" alt="Day 3 Icon">
+                        <div class="e-desc" style="margin-bottom: 1.5rem;">Julio 家 15:00 才 Check-in，午前是我們的自由時光。選一個最期待的方式度過：</div>
+
+                        <div class="option-box">
+                            <strong>提案 A・合羽橋 美器尋寶</strong><br>
+                            步行2分鐘即達「主婦天堂」合羽橋道具街，尋訪充滿質感的鑄鐵鍋、和食器、食品模型。中午至仲見世通隨意品嚐著名菠蘿麵包與小點。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://www.kappabashi.or.jp/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>合羽橋道具街 導覽地圖</a>
+                                <a href="https://www.youtube.com/results?search_query=合羽橋+必買&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>熱門必買戰利品 Vlog</a>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <strong>提案 B・淺草寺 下町悠遊</strong><br>
+                            晨光最柔和的時刻，造訪雷門與仲見世通り。花月堂菠蘿麵包必買，淺草炸牛排、大黒家天婦羅邊走邊吃，感受百年下町的生命力。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://www.senso-ji.jp/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>淺草寺 官網</a>
+                                <a href="https://www.youtube.com/results?search_query=淺草寺+仲見世+散策&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>仲見世通り 散策 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午後 15:00</div>
+                            <div class="e-title">友朋相會</div>
+                            <div class="e-desc">Julio 一家抵達淺草。兩家共同前往 24 小時營業的 <a
+                                    href="https://www.google.com/maps/search/?api=1&query=西友+浅草" target="_blank"
+                                    class="location-link">西友超市</a>
+                                <a href="https://www.youtube.com/results?search_query=日本超市+必買+2026&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>日本超市爆買指南</a>，採購水果與孩童零食，體驗在地生活感。</div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜</div>
+                            <div class="e-title">燒肉慶聚餐</div>
+                            <img src="images/day3_bbq.png" class="day-image" alt="Wagyu BBQ Night">
+                            <div class="e-desc" style="margin-bottom: 1rem;">岳母加入後大人終可稍加放鬆，選定今晚的慶祝主場：</div>
+                            <div class="option-box">
+                                <strong>提案 A・銀座コバウ 特別室</strong><br>
+                                頂級完全個室，兩室合併最多可容10人。人均 ¥35,000，適合大人慶典夜。⚠️ 需提前致電確認兒童入場可否。
+                                <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                    <a href="https://www.zaikon.co.jp/en" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>銀座コバウ 預約頁</a>
+                                    <a href="https://www.youtube.com/results?search_query=銀座コバウ&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>頂級和牛開箱影片</a>
+                                </div>
+                            </div>
+                            <div class="option-box">
+                                <strong>提案 B・土古里 浅草店</strong><br>
+                                韓式和牛燒肉，親子友善個室，帶孩子一同入座無壓力。費用較コバウ親民，全家都能輕鬆歡聚。
+                                <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                    <a href="https://tabelog.com/tokyo/A1311/A131102/13180425/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>土古里 浅草店 (親子友善個室)</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=土古里+浅草店" target="_blank" class="mat-link"><svg><use href="#icon-star"></use></svg>Google 評價(4.1+)</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">四日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">遊園・昭和餘暉</div>
+                        <div class="day-date">6/20（土）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <img src="images/icon_day4_retro_asset.png" class="day-icon" alt="Day 4 Icon">
+                        <div class="event">
+                            <div class="e-time">午前 10:00</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=西武園ゆうえんち"
+                                    target="_blank" class="location-link">西武園遊樂園</a></div>
+                            <img src="images/day4_seibu.png" class="day-image" alt="Seibu-en Godzilla Retro Park">
+                            <div class="e-desc">
+                                捨去舟車勞頓，搭乘專屬包車直達樂園。男孩們可體驗震撼的哥吉拉設施，我們則漫步於夕日之丘商店街，感受濃厚的昭和復古氛圍並隨意享用懷舊洋食（需注意孩童身高是否大於 100cm）。
+                            </div>
+                            <div class="stamp-group">
+                                <span class="stamp">專車直達</span>
+                            </div>
+                            <div class="materials">
+                                <a href="https://www.seibu-leisure.co.jp/amusementpark/index.html" target="_blank"
+                                    class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>西武園ゆうえんち 官網</a>
+                                <a href="https://www.seibu-leisure.co.jp/amusementpark/enjoy/yuhinooka/index.html"
+                                    target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>夕日之丘商店街 介紹</a>
+                                <a href="https://www.youtube.com/results?search_query=西武園遊樂園+哥吉拉&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>哥吉拉與復古街 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜 18:00</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=浅草今半"
+                                    target="_blank" class="location-link">淺草 今半壽喜燒</a></div>
+                            <div class="e-desc">歸返淺草，造訪百年壽喜燒名店。寬敞的榻榻米房讓寶寶安全活動，大人可安心品味極上黑毛和牛。</div>
+                            <div class="materials">
+                                <a href="https://www.asakusaimahan.co.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>淺草 今半 官網</a>
+                                <a href="https://www.youtube.com/results?search_query=浅草今半+壽喜燒&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>絕品壽喜燒食記影片</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">深夜</div>
+                            <div class="e-title">大人的 Hoppy 微醺</div>
+                            <div class="e-desc">待孩童沉睡交由長輩看顧，兩人溜至 <a
+                                    href="https://www.google.com/maps/search/?api=1&query=ホッピー通り+浅草" target="_blank"
+                                    class="location-link">Hoppy 通道</a>，感受日式紅燈籠下的居酒屋氣息與在地特有的生霍比酒。</div>
+                            <div class="stamp-group">
+                                <span class="stamp rust">微醺時段</span>
+                            </div>
+                            <div class="materials">
+                                <a href="https://e-asakusa.jp/spot/135" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>Hoppy 通り 食客指南</a>
+                                <a href="https://www.youtube.com/results?search_query=Hoppy通り+淺草+居酒屋&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>特色居酒屋街 Vlog</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">五日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">光影・童趣之日</div>
+                        <div class="day-date">6/21（日）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <img src="images/icon_day5_art_asset.png" class="day-icon" alt="Day 5 Icon">
+                        <div class="e-desc" style="margin-bottom: 1.5rem;">依 6/18 的選擇決定今日方向，或視大家當天狀態靈活調整—三個選項皆精彩：</div>
+
+                        <div class="option-box">
+                            <strong>提案 A・TeamLab Planets 豊洲</strong>（強力推薦，任何天氣）<br>
+                            <img src="images/day5_teamlab.png" class="day-image" alt="TeamLab Planets Sushi">
+                            踏入與水連動的沉浸式光影藝術空間，全家浸泡於無邊際光海。⚠️ 嬰兒車不可入場，記得備揹巾。午膳可至同棟的<a href="https://www.google.com/maps/search/?api=1&query=100本のスプーン+豊洲" target="_blank" class="location-link">100本のスプーン</a>，離乳食無限量供應。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://planets.teamlab.art/tokyo/zh-hant/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>TeamLab Planets 官方中文預約</a>
+                                <a href="https://100spoons.com/toyosu/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>100本のスプーン TOYOSU</a>
+                                <a href="https://www.youtube.com/results?search_query=TeamLab+Planets+Tokyo&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>沉浸式體驗 Vlog (熱門排行)</a>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <strong>提案 B・吉卜力美術館</strong>（若 6/18 未成行）<br>
+                            前往三鷹，持預購票進入吉卜力的異想世界。午後於<a href="https://www.google.com/maps/search/?api=1&query=井の頭恩賜公園" target="_blank" class="location-link">井の頭恩賜公園</a>散步，鵝與小動物陪伴孩子探索。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://www.ghibli-museum.jp/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>吉卜力美術館 官網</a>
+                                <a href="https://www.youtube.com/results?search_query=吉卜力美術館+三鷹+攻略&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>三鷹之森 參觀心得 Vlog</a>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <strong>提案 C・鎌倉繡球花 ☀️</strong>（若 6/18 因天候未成行）<br>
+                            同樣路線再戰鎌倉。週日人較多，早出發更重要（08:30前出門）。明月院→長谷寺→午餐小町通り，一日詩意小旅行。
+                            <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                <a href="https://trip-kamakura.com/place/230.html" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>明月院 觀光導覽</a>
+                                <a href="https://www.youtube.com/results?search_query=鎌倉+紫陽花+2026&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>紫陽花季絕美 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=くら寿司+浅草ROX"
+                                    target="_blank" class="location-link">くら寿司</a> 迴轉同樂</div>
+                            <div class="e-desc">返回淺草，以孩童最愛的扭蛋迴轉壽司收尾。五盤一抽的遊戲讓孩童專心，大人亦能平靜用餐。</div>
+                            <div class="materials">
+                                <a href="https://www.kurasushi.co.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>くら寿司 菜單</a>
+                                <a href="https://www.youtube.com/results?search_query=淺草+ROX+藏壽司&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>旗艦店歡樂扭蛋 Vlog</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">六日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">表參道・質感散策</div>
+                        <div class="day-date">6/22（月）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <div class="e-desc" style="margin-bottom: 2rem;">
+                            今日放慢腳步，感受東京的自然與時尚氣息。神宮內參道為碎石路，推車恐劇烈震動，建議改用嬰兒揹巾更添自如。</div>
+
+                        <div class="event">
+                            <div class="e-time">午前 09:00</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=明治神宮"
+                                    target="_blank" class="location-link">明治神宮</a>與原宿</div>
+                            <div class="e-desc">置身都心內的參天蒼木，大口呼吸晨間冷冽的空氣。隨後繞至竹下通，滿足孩童探訪玩具店的期待。</div>
+                            <div class="materials">
+                                <a href="https://www.meijijingu.or.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>明治神宮 官網</a>
+                                <a href="https://www.youtube.com/results?search_query=明治神宮+散步+vlog&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>神宮參拜散策 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午膳</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=bills+表参道"
+                                    target="_blank" class="location-link">bills</a> 質感洋食</div>
+                            <img src="images/day6_omotesando.png" class="day-image" alt="Omotesando Bills Pancake">
+                            <div class="e-desc">於東急 Plaza 享負盛名的「世界最美味鬆餅」，柔軟細緻的起司鬆餅治癒味蕾（需線上訂位）。</div>
+                            <div class="materials">
+                                <a href="https://billsjapan.com/jp/%E8%A1%A8%E5%8F%82%E9%81%93" target="_blank"
+                                    class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>bills 表參道 預約</a>
+                                <a href="https://www.youtube.com/results?search_query=bills+表參道&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>世界第一鬆餅朝聖影片</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午後</div>
+                            <div class="e-title">午茶與街頭見學</div>
+                            <div class="e-desc">逛遍表參道林立的設計店鋪，手捧 <a href="https://www.google.com/maps/search/?api=1&query=Blue+Bottle+Coffee+表参道" target="_blank" class="location-link">Blue Bottle Coffee</a> 歇足，感受都心輕奢氣息。</div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜</div>
+                            <div class="e-title">晚餐選定</div>
+                            <div class="e-desc" style="margin-bottom: 1rem;">今日就近或返淺草，依體力選擇：</div>
+                            <div class="option-box">
+                                <strong>提案 A・KINTAN 燒肉（表參道）</strong><br>
+                                表參道高人氣商業燒肉，評價極高。就近解決晚餐，省去返程奔波，適合今日體力已消耗過半時。
+                                <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                    <a href="https://kintan.restaurant/shop/omotesando-yakiniku/" target="_blank" class="mat-link"><svg><use href="#icon-link"></use></svg>KINTAN 表參道 店舖資訊</a>
+                                    <a href="https://www.youtube.com/results?search_query=KINTAN+表參道&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>燒肉開箱 Vlog</a>
+                                </div>
+                            </div>
+                            <div class="option-box">
+                                <strong>提案 B・返淺草 自由晚食</strong><br>
+                                搭乘地鐵返回下町，於仲見世通或 ROX 周邊輕鬆覓食。炸牛排、居酒屋定食，隨興而至最放鬆。
+                                <div class="materials" style="margin-top:0.8rem; border-top:none; padding-top:0;">
+                                    <a href="https://www.google.com/maps/search/?api=1&query=浅草+居酒屋" target="_blank" class="mat-link"><svg><use href="#icon-map"></use></svg>淺草周邊餐廳地圖</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">七日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">塔影・告別盛典</div>
+                        <div class="day-date">6/23（火）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <div class="event">
+                            <div class="e-time">午前 09:00</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=キッザニア東京"
+                                    target="_blank" class="location-link">KidZania</a> 職人體驗</div>
+                            <img src="images/day7_kidzania.png" class="day-image" alt="KidZania Firefighter Tokyo Tower">
+                            <div class="e-desc">孩童的專屬試煉場。見證他們穿上迷你制服，專注體驗消防員或麵包師傅的神情。嬰兒可由長輩陪伴於外側休憩（必須鎖定第1梯次 09:00-15:00）。
+                            </div>
+                            <div class="materials">
+                                <a href="https://www.kidzania.jp/tokyo/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>KidZania 東京 預約頁</a>
+                                <a href="https://www.youtube.com/results?search_query=KidZania+東京+攻略&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>破十萬點閱實玩攻略</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午後 15:30</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=東京タワー"
+                                    target="_blank" class="location-link">東京鐵塔</a>之暮</div>
+                            <div class="e-desc">搭乘大江戶線直達赤羽橋，仰望經典的紅色鐵塔點亮夜空，於 B1F FootTown 兒童區讓孩童自由跑動。</div>
+                            <div class="materials">
+                                <a href="https://www.tokyotower.co.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>東京鐵塔 案內</a>
+                                <a href="https://www.youtube.com/results?search_query=東京鐵塔+Vlog&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>鐵塔浪漫夜景 Vlog</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">夜 18:30</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=東京芝+とうふ屋うかい"
+                                    target="_blank" class="location-link">東京芝 とうふ屋うかい</a></div>
+                            <div class="e-desc">為旅程畫下完美句點。鐵塔腳下一方廣大的江戶庭園內，享用最高級的豆腐懷石料理，為兩家人的東京行乾杯（需提早一個月預約）。</div>
+                            <div class="stamp-group">
+                                <span class="stamp">極上懷石</span>
+                                <span class="stamp rust">完美落幕</span>
+                            </div>
+                            <div class="materials">
+                                <a href="https://www.ukai.co.jp/shiba/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>とうふ屋うかい 官網與預約</a>
+                                <a href="https://www.youtube.com/results?search_query=とうふ屋うかい+東京芝&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>庭園懷石沉浸體驗</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 8 -->
+            <div class="accordion-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="day-mark">終日</div>
+                    <div class="day-desc-wrap">
+                        <div class="day-info">歸途・滿載而歸</div>
+                        <div class="day-date">6/24（水）</div>
+                    </div>
+                    <div class="cross"></div>
+                </div>
+                <div class="acc-content">
+                    <div class="content-box">
+                        <div class="event">
+                            <div class="e-time">朝</div>
+                            <div class="e-title"><a href="https://www.google.com/maps/search/?api=1&query=MISOJYU+浅草"
+                                    target="_blank" class="location-link">MISOJYU</a> 晨光之味</div>
+                            <div class="e-desc">旅程最後一餐，選擇溫雅的日式手工飯糰搭配濃郁味噌湯，將東京的味道銘記於心。</div>
+                            <div class="materials">
+                                <a href="https://misojyu.jp/" target="_blank" class="mat-link"><svg>
+                                        <use href="#icon-link"></use>
+                                    </svg>MISOJYU 餐點介紹</a>
+                                <a href="https://www.youtube.com/results?search_query=MISOJYU+淺草&sp=CAM%253D" target="_blank" class="mat-link"><svg><use href="#icon-video"></use></svg>人氣味噌湯飯糰試吃</a>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午前 10:30</div>
+                            <div class="e-title">採買與道別</div>
+                            <img src="images/asakusa_lantern.png" class="day-image" alt="Asakusa Farewell">
+                            <div class="e-desc">送別提早班機的 Julio 一家。我們稍作停留，於仲見世通進行最後的名產採辦。</div>
+                        </div>
+                        <div class="event">
+                            <div class="e-time">午後</div>
+                            <div class="e-title">平安賜歸</div>
+                            <div class="e-desc">12:30 搭乘 Skyliner 返回成田機場。CX451（15:45班機），帶著無盡的回憶與期待，返回溫暖的家。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-end">
+            光影流轉，此行足跡皆為風景。
+        </div>
+    </div>
+
+    <!-- Script for Accordion toggle -->
+    <script>
+        function toggleAcc(header) {
+            const item = header.parentElement;
+            const content = header.nextElementSibling;
+            const isActive = item.classList.contains('active');
+
+            // Close all items
+            document.querySelectorAll('.accordion-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.acc-content').style.maxHeight = null;
+            });
+
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+
+                // Scroll into view comfortably
+                setTimeout(() => {
+                    const rect = header.getBoundingClientRect();
+                    if (rect.top < 0 || rect.bottom > window.innerHeight) {
+                        header.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 350);
+            }
+        }
+
+        // Auto open the first day after a short delay
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const firstDay = document.querySelector('.acc-header');
+                if (firstDay) toggleAcc(firstDay);
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>
